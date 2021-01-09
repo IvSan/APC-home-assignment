@@ -37,9 +37,10 @@ public class Solver {
             if (task.target - task.options.get(0) > 0) {
                 return Collections.emptyList(); // no solutions here
             }
-            final var picks = new ArrayList<Integer>();
-            picks.add(task.options.get(0));
-            return List.of(new Solution(task.options.get(0) - task.target, picks));
+            return List.of(
+                    // return the solution of single picking option
+                    new Solution(task.options.get(0) - task.target, List.of(task.options.get(0)))
+            );
         }
 
         List<Solution> subtaskSolutions = new ArrayList<>();
@@ -54,7 +55,7 @@ public class Solver {
             subtaskSolutions.addAll(solve(subtask).stream().map(
                     s -> {
                         final var picks = new LinkedList<>(s.picks);
-                        picks.add(0, machineProduction);
+                        picks.add(0, machineProduction); // add current pick to subtask solution's pick stack
                         return new Solution(s.waste, picks);
                     }).distinct().collect(Collectors.toList()));
         }
