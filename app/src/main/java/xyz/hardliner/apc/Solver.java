@@ -25,7 +25,7 @@ public class Solver {
             return solutions.get(task); // do nothing, this subtask already has been solved
         }
 
-        if (task.target <= 0) {
+        if (task.target <= 0) { // no need to calculate subtask, required production rate reached
             final var waste = -task.target;
             if (minWaste > waste) {
                 minWaste = waste; // new minimal waste solution found
