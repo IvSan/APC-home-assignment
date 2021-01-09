@@ -58,4 +58,16 @@ public class SolverTest {
 
         assertEquals(solutions.size(), 0);
     }
+
+    @Test
+    public void EqualMachinesTest() {
+        final List<Integer> productions = List.of(5, 5, 5, 5, 3, 3);
+        final var input = new Input(productions.size(), productions, 17);
+        Solver solver = new Solver();
+
+        final var solutions = solver.solve(input);
+
+        assertEquals(solutions.size(), 1);
+        assertTrue(solutions.contains(new Solution(1, List.of(3, 5, 5, 5))));
+    }
 }
