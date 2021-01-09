@@ -49,19 +49,33 @@ public class Solver {
             if (task.target - machineProduction < -minWaste) {
                 continue; // no need to calculate, there are better solutions
             }
-            final var subtaskOptions = new LinkedList<>(task.options);
-            subtaskOptions.remove(machineIndex);
-            final var subtask = new Task(task.target - machineProduction, subtaskOptions);
+
+            final var subtask = new Task(
+                    task.target - machineProduction,
+                    cloneAndRemoveElementByIndex(task.options, machineIndex)
+            );
+
             subtaskSolutions.addAll(solve(subtask).stream().map(
                     s -> {
-                        final var picks = new LinkedList<>(s.picks);
-                        picks.add(0, machineProduction); // add current pick to subtask solution's pick stack
-                        return new Solution(s.waste, picks);
+                        // add current pick to subtask solution's pick stack
+                        return new Solution(s.waste, insertAtTheBeginning(machineProduction, s.picks));
                     }).distinct().collect(Collectors.toList()));
         }
 
-        solutions.put(task, subtaskSolutions); // We found all solutions for specific task, remember them
+        solutions.put(task, subtaskSolutions); // All solutions for specific task have been found, remember them
         return subtaskSolutions;
+    }
+
+    private List<Integer> cloneAndRemoveElementByIndex(List<Integer> originalList, int index) {
+        final var list = new LinkedList<>(originalList);
+        list.remove(index);
+        return list;
+    }
+
+    private List<Integer> insertAtTheBeginning(int val, List<Integer> originalList) {
+        final var list = new LinkedList<>(originalList);
+        list.add(0, val);
+        return list;
     }
 
 }
