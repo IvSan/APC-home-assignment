@@ -1,5 +1,7 @@
 # APC-home-assignment
 
+_Time limit for the task is 90 mins._
+
 Inside a chipset producing factory, there are older and newer machines. Newer machines are able to produce
 a higher number chipsets per minute, but both new and old machines consume the same amount of energy
 per hour. Given a list of N machines by the number of chipsets/minute, detect the machines that should be
